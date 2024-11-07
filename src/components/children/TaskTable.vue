@@ -1,6 +1,6 @@
 <template>
   <table>
-    <thead>
+    <thead class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
       <tr>
         <th>#</th>
         <th>Task</th>
@@ -23,7 +23,7 @@
             <Input
               :typeInput="'text'"
               v-model="task.name"
-              :classInput="' border-2 border-solid border-red-500'"
+              :classInput="'border-2 border-gray-300 focus:border-red-500 rounded-md p-2 w-[150px] focus:ring-2 focus:ring-red-300 outline-none'"
             />
           </div>
           <div v-else>
@@ -31,14 +31,20 @@
           </div>
         </td>
         <td>
-          {{ task.status }}
+          <div v-if="task.isEditing">
+            <StatusSelect @updateStatus="emit('eUpdate', $event)" />
+          </div>
+          <div v-else>
+            {{ task.status }}
+          </div>
         </td>
+
         <td>
           <div v-if="task.isEditing">
             <Input
-              :typeInput="'text'"
+              :typeInput="'date'"
               v-model="task.time"
-              :classInput="' border-2 border-solid border-red-500'"
+              :classInput="' border-2 border-gray-300 focus:border-red-500 rounded-md p-2 w-[150px] focus:ring-2 focus:ring-red-300 outline-none'"
             />
           </div>
           <div v-else>
@@ -65,6 +71,7 @@
 
 <script setup>
 import CheckBox from './CheckBox.vue'
+import StatusSelect from './StatusSelect.vue'
 import Button from './base/Button.vue'
 import Input from './base/Input.vue'
 
@@ -78,11 +85,15 @@ const props = defineProps({
     required: true,
   },
 })
-const emit = defineEmits(['toggleAllChecks', 'toggleCheck'])
+const emit = defineEmits([
+  'toggleAllChecks',
+  'toggleCheck',
+  'eUpdate',
+  'saveMe',
+])
 
 function toggleAllChecks() {
   emit('toggleAllChecks')
-  console.log('Table', props.isAllChecked)
 }
 
 function toggleCheck(task) {
@@ -93,6 +104,8 @@ function editTask(task) {
 }
 
 function saveTask(task) {
+  console.log(task)
+  emit('saveMe', task)
   task.isEditing = false
 }
 </script>
@@ -107,9 +120,5 @@ td {
   padding: 8px;
   text-align: left;
   border: 1px solid #ddd;
-}
-
-th {
-  background-color: #f4f4f4;
 }
 </style>

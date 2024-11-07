@@ -1,11 +1,16 @@
 <template>
-  <div
-    class="checkbox"
-    @click="toggleCheck"
-    :class="{ checked: props.isChecked }"
-  >
-    <div class="checkbox-inner" v-if="props.isChecked"></div>
-  </div>
+  <label class="my-checkbox">
+    <span></span>
+    <input
+      type="checkbox"
+      :checked="props.isChecked"
+      @change="toggleCheck"
+      class="hidden-checkbox"
+    />
+    <span class="checkbox-display">
+      <span class="dot"></span>
+    </span>
+  </label>
 </template>
 
 <script setup>
@@ -16,31 +21,64 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['toggle'])
-function toggleCheck() {
-  emit('toggle')
-  console.log('checkbox', props.isChecked)
+
+function toggleCheck(event) {
+  emit('toggle', event.target.checked)
 }
 </script>
 
 <style scoped>
-.checkbox {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #007bff;
-  border-radius: 4px;
-  display: flex;
+.my-checkbox {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
   cursor: pointer;
 }
-.checkbox.checked {
-  background-color: #007bff;
+
+.my-checkbox span:first-of-type {
+  margin-right: 8px;
 }
 
-.checkbox-inner {
-  width: 12px;
-  height: 12px;
-  background-color: #007bff;
-  border-radius: 2px;
+.hidden-checkbox {
+  display: none;
+}
+
+.checkbox-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #4caf50;
+  border-radius: 4px;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox-display:hover {
+  border-color: #388e3c;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hidden-checkbox:checked + .checkbox-display {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
+.hidden-checkbox:checked + .checkbox-display .dot {
+  opacity: 1;
 }
 </style>

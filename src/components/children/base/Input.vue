@@ -22,7 +22,6 @@ const props = defineProps({
 </script>
 
 <style scoped>
-/* Nếu muốn thêm một số cải tiến về giao diện */
 input {
   transition:
     border-color 0.3s ease,

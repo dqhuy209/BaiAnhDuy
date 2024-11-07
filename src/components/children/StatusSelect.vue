@@ -19,7 +19,6 @@ import { ref, computed } from 'vue'
 
 const selectedStatus = ref('todo')
 const isOpen = ref(false)
-
 const statuses = [
   { value: 'todo', label: 'Todo' },
   { value: 'done', label: 'Done' },
