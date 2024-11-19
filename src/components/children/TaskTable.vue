@@ -3,10 +3,10 @@
     <thead class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
       <tr>
         <th>#</th>
-        <th>Task</th>
-        <th>Status</th>
-        <th>Date</th>
-        <th>Action</th>
+        <th>{{ $t('task') }}</th>
+        <th>{{ $t('status') }}</th>
+        <th>{{ $t('date') }}</th>
+        <th>{{ $t('action') }}</th>
         <th>
           <CheckBox @toggle="toggleAllChecks" :isChecked="props.isAllChecked" />
         </th>
